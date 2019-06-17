@@ -1,0 +1,99 @@
+{
+  "id": "1ce9410c-7dfc-4a94-8c30-f9c71f91226f",
+  "version": "2.0",
+  "name": "GLBC AutomationTest with Selenium IDE by Daniel Albul",
+  "url": "https://anotepad.com/",
+  "tests": [{
+    "id": "8aad032d-d156-4a12-95dc-9bf4d4b7bd80",
+    "name": "123",
+    "commands": [{
+      "id": "a4457a82-6606-42ad-8acc-31e7b7800f5b",
+      "comment": "Open an \"Anotepad.com\" application",
+      "command": "open",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fc39533d-9f8f-49a3-a307-87276ac6965a",
+      "comment": "Filling Note Title field with the text",
+      "command": "type",
+      "target": "id=edit_title",
+      "targets": [
+        ["id=edit_title", "id"],
+        ["name=notetitle", "name"],
+        ["css=#edit_title", "css:finder"],
+        ["xpath=//input[@id='edit_title']", "xpath:attributes"],
+        ["xpath=//form[@id='note_form']/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "My First Note"
+    }, {
+      "id": "1e1d3d3e-8a2e-424a-80b3-311e436b7d70",
+      "comment": "Saving the note.",
+      "command": "click",
+      "target": "id=btnSaveNote",
+      "targets": [
+        ["id=btnSaveNote", "id"],
+        ["css=span > #btnSaveNote", "css:finder"],
+        ["xpath=//input[@id='btnSaveNote']", "xpath:attributes"],
+        ["xpath=//form[@id='note_form']/div[2]/div/span/input", "xpath:idRelative"],
+        ["xpath=//span/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "dd6c8d02-9e15-479d-af32-a34cadfc6d9b",
+      "comment": "Verifying that note is created.",
+      "command": "assertText",
+      "target": "css=.alert:nth-child(1)",
+      "targets": [
+        ["css=.alert:nth-child(1)", "css:finder"],
+        ["xpath=//p", "xpath:position"]
+      ],
+      "value": "You have saved your note as a Guest User. You can come back at anytime to continue editing as long as you don't delete your browser cookies. To access your notes from anywhere and never lose them, please Create a Free Account. Your existing notes will be saved into your account."
+    }, {
+      "id": "9a0c9316-2b80-41f1-8ca0-a7d798a0ec76",
+      "comment": "Confirmation of the next action",
+      "command": "chooseOkOnNextConfirmation",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5857b961-1212-4b06-942b-e385a85e1fe4",
+      "comment": "Deleting the Note",
+      "command": "click",
+      "target": "linkText=Delete",
+      "targets": [
+        ["linkText=Delete", "linkText"],
+        ["css=.delete", "css:finder"],
+        ["xpath=//a[contains(text(),'Delete')]", "xpath:link"],
+        ["xpath=//a[@onclick=\"return confirm('Are you sure you want to delete this note?')\"]", "xpath:attributes"],
+        ["xpath=//form[@id='note_form']/div[4]/div/span/strong/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/note/delete/knaykp')]", "xpath:href"],
+        ["xpath=//div[4]/div/span/strong/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Delete')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e22973d8-d6d8-4c0e-967d-757b9d0dbec6",
+      "comment": "Verifying that note is deleted.",
+      "command": "assertText",
+      "target": "css=#savedNotes > div",
+      "targets": [
+        ["css=#savedNotes > div", "css:finder"],
+        ["xpath=//ul[@id='savedNotes']/div", "xpath:idRelative"],
+        ["xpath=//ul/div", "xpath:position"]
+      ],
+      "value": "No note here."
+    }]
+  }],
+  "suites": [{
+    "id": "dd60218e-c052-42c5-813d-63e241ef42af",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["8aad032d-d156-4a12-95dc-9bf4d4b7bd80"]
+  }],
+  "urls": ["https://anotepad.com/"],
+  "plugins": []
+}

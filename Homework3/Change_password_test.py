@@ -1,33 +1,40 @@
+import pytest
 from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from Pages.Login_page import Login
+from Pages.Home_page import HomePage
 from Pages.Settings_page import Settings
 
-class ChangePasswordTest():
+link = "https://anotepad.com/create_account"
+email = "kair317@gmail.com"
+old_password = "1234567"
+new_password = "7777611"
 
-    def setUp(self):
-        self.driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+@pytest.fixture(scope="session")
+def browser():
+    browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+    yield browser
+    browser.quit()
 
-    def ChangePassswordTest(self):
-        driver = self.driver
-        driver.get("https://anotepad.com/create_account")
-        driver.maximize_window()
-        email = "kair317@gmail.com"
-        old_password = "1234567"
-        new_password = "7777611"
+class TestChangePassword(object):
 
-        login = Login(driver)
-        login.login(email, old_password).login_assertion()
+    def test_change_password(self, browser):
+        browser.get(link)
+        browser.maximize_window()
 
-        settings = Settings(driver)
-        settings.go_to_settings_page().change_password(new_password).password_update_assertion()
+        login = Login(browser)
+        login.login(email, old_password)
+        login.login_assertion()
 
-        login.submit_logout().logout_assertion()
+        settings = Settings(browser)
+        settings.go_to_settings_page()
+        settings.change_password(new_password)
+        settings.password_update_assertion()
 
-        login.go_to_login_page().login(email, new_password).login_assertion()
+        login.submit_logout()
+        login.logout_assertion()
 
-    def tearDown(self):
-        self.driver.quit()
+        login.go_to_login_page()
+        login.login(email, new_password)
+        login.login_assertion()

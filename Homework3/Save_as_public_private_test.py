@@ -1,30 +1,48 @@
+import time
+import pytest
 from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from Pages.Login_page import Login
 from Pages.Home_page import HomePage
-from Pages.Settings_page import Settings
 
-class ChangePasswordTest():
+link = "https://anotepad.com/create_account"
+email = "kair317@gmail.com"
+password = "1234567"
+note = "FNote 3"
 
-    def setUp(self):
-        self.driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+@pytest.fixture(scope="session")
+def browser():
+    browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+    yield browser
+    browser.quit()
 
-    def SaveAsPublicOrPrivateTest (self):
-        driver = self.driver
-        driver.get("https://anotepad.com/create_account")
-        driver.maximize_window()
-        email = "kair317@gmail.com"
-        password = "1234567"
+class TestPublicOrPrivateSave(object):
 
-        login = Login(driver)
-        login.login(email, password).login_assertion().submit_logout().logout_assertion()
+    def test_public_or_private_save(self, browser):
+        browser.get(link)
+        browser.maximize_window()
 
-        home_page = HomePage(driver)
-        home_page.select_note("FNote 3").public_or_private_setting().public_checkbox().public_selected_assert()
-        home_page.select_note("FNote 3").public_or_private_setting().private_checkbox().private_selected_assert()
+        login = Login(browser)
+        login.login(email, password)
+        login.login_assertion()
 
-    def tearDown(self):
-        self.driver.quit()
+        home_page = HomePage(browser)
+
+        #public
+        home_page.select_note(note)
+
+        home_page.public_or_private_setting()
+
+        home_page.public_checkbox()
+
+        home_page.public_selected_assert()
+
+        #private
+        home_page.select_note(note)
+
+        home_page.public_or_private_setting()
+
+        home_page.private_checkbox()
+
+        home_page.private_selected_assert()

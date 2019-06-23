@@ -1,24 +1,28 @@
+import pytest
 from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
 from Pages.Login_page import Login
+from Pages.Home_page import HomePage
 
-class LoginTest():
+link = 'https://anotepad.com/create_account'
+email = "kair317@gmail.com"
+password = "1234567"
 
-    def setUp(self):
-        self.driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
 
-    def LoginTest(self):
-        driver = self.driver
-        driver.get("https://anotepad.com/create_account")
-        driver.maximize_window()
-        email = "kair317@gmail.com"
-        password = "1234567"
+@pytest.fixture(scope="session")
+def browser():
+    browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+    yield browser
+    browser.quit()
 
-        login = Login(driver)
-        login.login(email, password).login_assertion().submit_logout().logout_assertion()
+class TestLogin(object):
 
-    def tearDown(self):
-        self.driver.quit()
+    def test_login(self, browser):
+        browser.get(link)
+        browser.maximize_window()
+
+        login = Login(browser)
+        login.login(email, password)
+        login.login_assertion()
+        login.submit_logout()
+        login.logout_assertion()

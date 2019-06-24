@@ -1,8 +1,9 @@
 Homework3 v.2.0 changes made:
-1) All project is remade according to "Page Object Pattern"
-2) Parametrization is added, and all tests can be run with different parametres (valid/invalid)
-3) SetUp and TearDown methods are imported from conftest.py according to Pytest best practice
-4) All tests were grouped in one file: anotepad_tests.py
+1) Project is made with help of "Pytest" framework
+2) All project is remade according to "Page Object Pattern"
+3) Parametrization is added, and all tests can be run with different parametres (valid/invalid)
+4) SetUp and TearDown methods are imported from conftest.py
+5) All tests were grouped in one file: anotepad_tests.py
 
 Upcoming changes in v.2.1:
 1) Supportance of another browsers (Firefox, Opera, Edge)

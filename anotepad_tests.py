@@ -1,22 +1,26 @@
 import pytest
-
+import allure_pytest
+import allure
 from Pages.Login_page import Login
 from Pages.Home_page import HomePage
 from Pages.Settings_page import Settings
 
-link = 'https://anotepad.com/create_account'
+AUT_LINK = 'https://anotepad.com/create_account'
 
 class TestClass(object):
 
-# TC GL-894:Login into the app -----------------------------------------------------------------------------------------
+    TC_LINK = 'http://52.169.88.152/lib/testcases/tcPrint.php?show_mode=&testcase_id=5141&tcversion_id=5142'
+    @allure.testcase(TC_LINK, "Test Case: GL-894:Login into the app")
+    @allure.feature("Logging in")
     @pytest.mark.parametrize(
         'email, password', [
             ('kair317@gmail.com', '1234567'),                       # valid email and password ... Expected: PASS
             ('invalid9384569834@hotmail.com', 'notvalidpas34091')   # invalid email and password ... Expected: FAIL
         ]
     )
+  # @pytest.mark.withallure
     def test_login(self, browser, email, password):
-        browser.get(link)
+        browser.get(AUT_LINK)
         browser.maximize_window()
 
         login = Login(browser)
@@ -25,7 +29,10 @@ class TestClass(object):
         login.submit_logout()
         login.logout_assertion()
 
-# TC GL-805:Saving notes as "Private" or "Public" (only for registered users) ------------------------------------------
+
+    TC_LINK = 'http://52.169.88.152/lib/testcases/tcPrint.php?show_mode=&testcase_id=4567&tcversion_id=4568'
+    @allure.testcase(TC_LINK, "Test Case: GL-805:Saving notes as 'Private' or 'Public' (only for registered users)")
+    @allure.feature("Saving notes with Public or Private access")
     @pytest.mark.parametrize(
         'email, password, note', [
             ('kair317@gmail.com', '1234567', 'FNote 3'),            # valid note ... Expected: PASS
@@ -33,7 +40,7 @@ class TestClass(object):
         ]
     )
     def test_public_or_private_save(self, browser, email, password, note):
-        browser.get(link)
+        browser.get(AUT_LINK)
         browser.maximize_window()
 
         login = Login(browser)
@@ -46,14 +53,15 @@ class TestClass(object):
         home_page.public_or_private_setting()
         home_page.public_checkbox()
         home_page.public_selected_assert()
-
         # private
         home_page.select_note(note)
         home_page.public_or_private_setting()
         home_page.private_checkbox()
         home_page.private_selected_assert()
 
-# TC GL-897:Changing a password ----------------------------------------------------------------------------------------
+    TC_LINK = 'http://52.169.88.152/lib/testcases/tcPrint.php?show_mode=&testcase_id=5157&tcversion_id=5158'
+    @allure.testcase(TC_LINK, "Test Case: GL-897:Changing a password")
+    @allure.feature("Changing an account password")
     @pytest.mark.parametrize(
         'email, password, new_password', [
             ('kair317@gmail.com', '1234567', '7777611'),    # valid password ... Expected: PASS
@@ -61,7 +69,7 @@ class TestClass(object):
         ]
     )
     def test_change_password(self, browser, email, password, new_password):
-        browser.get(link)
+        browser.get(AUT_LINK)
         browser.maximize_window()
 
         login = Login(browser)
